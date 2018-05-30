@@ -1,9 +1,14 @@
 $(document).ready(function () {
     //variable declarations go here
 
+ 
+
+
     //object declarations go here
     var gameObject = {
         name: "Trivia Game",
+        totalWins: 0,
+        totalLosses: 0,
         questionsObject = [
             { question: "What is the thing we all like to do-dahd?",
               answers: ["answer A", "Answer B", "Answer C", "Answer D"],
