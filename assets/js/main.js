@@ -25,18 +25,33 @@ $(document).ready(function () {
               correct: "Answer C",
               hints: ["Hint # 1 is this", "Hint #2 is this"]  }
             ],
+        resetVariables: function () {
+            this.totalWins = 0;
+            this.totalLosses = 0;
+        },
         mainMenuLoad: function () {
-            //$('#game-container').empty();
-            //other function which zeroizes the variables
-            $('#game-container').append('<div class="container" id="main-menu">');
-            $('#game-container').append('<div class="container" id="title-container">');
-            $('#game-container').append('<div class="row" id="title-row">');
-            $('#game-container').append('<div class="col-md-3"></div><div class="col-md-6"><h1>Trivia Application!</h1></div><div class="col-md-3"></div></div>');
-            $('#game-container').append('<div class="row" id="difficulty-select">');
-            $('#game-container').append('<div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select" style="background: green;">Easy</div><br><div class="row diff-select" id="medium-select" style="background: yellow;">Medium</div><br><div class="row diff-select" id="hard-select" style="background: red;">Hard</div><br></div><div class="col-md-3"></div></div>');
-            $('#game-container').append('<div class="row" id="portfolio-tiles">');
-            $('#game-container').append('</div><div class="col-md-2"></div><div class="col-md-2">IN</div><div class="col-md-2">github</div><div class="col-md-2">slides</div><div class="col-md-2">projects</div><div class="col-md-2"></div></div>');
-            $('#game-container').append('</div>'); // closing div tag
+            $('#game-container').empty();
+            resetVariables();
+            var row1 = '<div class="container" id="main-menu">';
+            var row2 = '<div class="container" id="title-container">';
+            var row3 = '<div class="row" id="title-row">';
+            var row4 = '<div class="col-md-3"></div><div class="col-md-6"><h1>Trivia Application!</h1></div><div class="col-md-3"></div></div>';
+            var row5 = '<div class="row" id="difficulty-select">';
+            var row6 = '<div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select" style="background: green;">Easy</div><br><div class="row diff-select" id="medium-select" style="background: yellow;">Medium</div><br><div class="row diff-select" id="hard-select" style="background: red;">Hard</div><br></div><div class="col-md-3"></div></div>';
+            var row7 = '<div class="row" id="portfolio-tiles">';
+            var row8 = '</div><div class="col-md-2"></div><div class="col-md-2">IN</div><div class="col-md-2">github</div><div class="col-md-2">slides</div><div class="col-md-2">projects</div><div class="col-md-2"></div></div>';
+            var row9 = '</div>';
+
+
+            $('#game-container').append(row1);
+            $('#game-container').append(row2);
+            $('#game-container').append(row3);
+            $('#game-container').append(row4);
+            $('#game-container').append(row5);
+            $('#game-container').append(row6);
+            $('#game-container').append(row7);
+            $('#game-container').append(row8);
+            $('#game-container').append(row9); // closing div tag
             return;
         },
         receiveQuestion: function () {
@@ -84,7 +99,7 @@ $(document).ready(function () {
 
      //if then else if case switch logic
     //game loading type functions
-    gameObject.receiveQuestion();
+    gameObject.mainMenuLoad();
 
 
     //$('#game-container').append('');
