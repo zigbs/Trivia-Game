@@ -1,0 +1,24 @@
+
+let questionsObject = [
+
+{ question: "What is the thing we all like to do-dahd?",
+  answers: ["answer A", "Answer B", "Answer C", "Answer D"],
+  correct: "Answer D",
+  hints: ["Hint # 1 is this", "Hint #2 is this"]  }
+
+{ question: "What is the thing we all like to do-dahd?",
+  answers: ["answer A", "Answer B", "Answer C", "Answer D"],
+  correct: "Answer D",
+  hints: ["Hint # 1 is this", "Hint #2 is this"]  }
+
+{ question: "What is the thing we all like to do-dahd?",
+  answers: ["answer A", "Answer B", "Answer C", "Answer D"],
+  correct: "Answer D",
+  hints: ["Hint # 1 is this", "Hint #2 is this"]  }
+
+];
+
+
+question[0].question -> "What is the thing we all like to do-dahd?"
+question[0].answers[2] -> "Answer C"
+question[1].hints[1] -> "Hint #2 is this"
