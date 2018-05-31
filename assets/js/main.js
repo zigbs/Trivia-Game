@@ -160,9 +160,11 @@ $(document).ready(function () {
                         gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
                     }, 500);
                 }
-                setTimeout(function () {
+                else {
+                    setTimeout(function () {
                     gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
                 }, 6000); 
+                }
             });
         },
         checkMenuClicks: function () {
