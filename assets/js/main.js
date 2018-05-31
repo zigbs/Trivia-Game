@@ -83,11 +83,6 @@ $(document).ready(function () {
                 $('#hint-button-2').empty().append(htmlString2);
             }
         },
-        timeOut: function (){
-            setTimeout(function () {
-                gameObject.giveAnswer(false, lastQuestion);
-        }, 6000);
-        },
         outputInfo: function () {
             var questionArray = gameObject.questionsObject.length;
             console.log(questionArray + ' Is the length of question Array ');
@@ -95,7 +90,10 @@ $(document).ready(function () {
             console.log(randomize + " is the random value selected");
             console.log(this.questionsObject[randomize].hints[0]);
 
-            gameObject.timeOut();
+            
+
+            
+
 
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
             var hintsRemString = gameObject.hintsLeft;
@@ -110,7 +108,7 @@ $(document).ready(function () {
             //OUTPUT ALL 4 ANSWERS TO THE USER
             var AnswerAString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[0] + '">' + this.questionsObject[randomize].answers[0] + '</button>';
             $('#answer-a').empty().append(AnswerAString);
-            var AnswerBString = '<button type="button" class="btn btnans btn-lg btn-success value="' + this.questionsObject[randomize].answers[1] + '">' + this.questionsObject[randomize].answers[1] + '</button>';
+            var AnswerBString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[1] + '">' + this.questionsObject[randomize].answers[1] + '</button>';
             $('#answer-b').empty().append(AnswerBString);
             var AnswerCString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[2] + '">' + this.questionsObject[randomize].answers[2] + '</button>';
             $('#answer-c').empty().append(AnswerCString);
@@ -161,7 +159,10 @@ $(document).ready(function () {
                     setTimeout(function () {
                         gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
                     }, 500);
-                } 
+                }
+                setTimeout(function () {
+                    gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
+                }, 6000); 
             });
         },
         checkMenuClicks: function () {
