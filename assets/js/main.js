@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    //variable declarations go here
-
 
     //object declarations go here
     var gameObject = {
@@ -14,6 +12,8 @@ $(document).ready(function () {
         totalHints: 0,  //This is the tally for the # of hints that they use throughtout the game
         totalTries: 0,  //This is the tally for the # of total tries that the user uses in a round of play
         menu: true,
+        lastAnswerTruth: false,
+        lastAnswerValue: " ",
         hasClicked: false,
         difficulty: 2, //by default this is hard.  There are no tries nor are there hints.  This was done to get a minimally viable program
         questionsObject: [
@@ -35,7 +35,7 @@ $(document).ready(function () {
                 question: "What color is Vulcan blood?",
                 answers: ["Green", "Red", "Magenta", "Sky Blue"],
                 correct: "Green",
-                hints: ["Not normal", "Reminds you of a bug"],
+                hints: ["Not Human-like at all", "Reminds you of a bug"],
             },
 
             {
@@ -134,6 +134,28 @@ $(document).ready(function () {
                     gameObject.updateHints();
             }
             });
+
+            $('.btnans').click( function () {
+                var getAnswerValue = $(this).attr("value");
+                console.log(getAnswerValue);
+                
+                
+                console.log(gameObject.questionsObject[randomize].correct);
+                var correctAnswer = gameObject.questionsObject[randomize].correct;
+                
+                var lastQuestion = gameObject.questionsObject[randomize].question;
+
+                if(getAnswerValue === gameObject.questionsObject[randomize].correct) {
+                    
+
+                    gameObject.giveAnswer(true, lastQuestion);
+                } else if(getAnswerValue !== gameObject.questionsObject[randomize].correct) {
+                    
+                    
+                   
+                    gameObject.giveAnswer(false, lastQuestion);
+                }
+            });
         },
         checkMenuClicks: function () {
 
@@ -178,10 +200,27 @@ $(document).ready(function () {
             var hintsRemString1 = gameObject.hintsLeft;
             $('#hints-remaining').empty().append('There are ' + hintsRemString1 +' hints left.');
         },
-        giveAnswer: function () {
+        giveAnswer: function (questionTruth, question) {
             $('#main-menu').hide();
             $('#result').show();
             $('#receive-question').hide();
+
+            console.log(question + ": is the question at play");
+            console.log(questionTruth + "...Was the question right?")
+            var theAnswerString = '<h2>' + question + '</h2>';
+            $('#the-answer').empty().append(theAnswerString);
+
+            if(questionTruth === true){
+                console.log(gameObject.lastAnswerTruth + ' : answer to the previous question');
+                var answerString = '<h1>The Question was correct!</h1>';
+                $('#the-result').empty().append(answerString);
+
+            } else if(questionTruth === false){
+                console.log(gameObject.lastAnswerTruth + ' : answer to the previous question');
+                var answerString2 = '<h1>The Question was WRONG!</h1>';
+                $('#the-result').empty().append(answerString2);
+                
+            }
 
             $('#answer-keep-going').click(function () {
                 gameObject.receiveQuestion();
