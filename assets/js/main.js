@@ -25,10 +25,10 @@ $(document).ready(function () {
             },
 
             {
-                question: "Where do the Maqui live?",
+                question: "Where are the Maqui homelands?",
                 answers: ["Bajor", "The Badlands", "Cardassia", "Earth"],
                 correct: "The Badlands",
-                hints: ["A desert wasteland", "Land that nobody wanted"],
+                hints: ["A desert wasteland", "Land that nobody wanted near Cardassia"],
             },
 
             {
@@ -90,6 +90,11 @@ $(document).ready(function () {
             console.log(randomize + " is the random value selected");
             console.log(this.questionsObject[randomize].hints[0]);
 
+            setTimeout(function () {
+                    gameObject.giveAnswer(false, lastQuestion);
+                }, 6000);
+            
+
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
 
             var hintsRemString = gameObject.hintsLeft;
@@ -97,11 +102,11 @@ $(document).ready(function () {
 
             //HERE IS WHERE THE QUESTIONS SPIT OUT
             $('#question').empty().append(htmlString);
-
+            //IF THE MENU BUTTON IS CLICKED -> MAIN MENU
             $('#menu-button').click(function () {
                 gameObject.loadGame();
             });
-
+            //OUTPUT ALL 4 ANSWERS TO THE USER
             var AnswerAString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[0] + '">' + this.questionsObject[randomize].answers[0] + '</button>';
             $('#answer-a').empty().append(AnswerAString);
             var AnswerBString = '<button type="button" class="btn btnans btn-lg btn-success value="' + this.questionsObject[randomize].answers[1] + '">' + this.questionsObject[randomize].answers[1] + '</button>';
@@ -121,13 +126,16 @@ $(document).ready(function () {
             $('#second-hint').hide().append(Hint2String);
             console.log(Hint2String);
 
+            
+
+            //HINT BUTTON 1 ON CLICK EVENT
             $('#hint-button-1').click(function () {
                 if (gameObject.hintsLeft > 0){
                 $('#first-hint').show();
                     gameObject.updateHints();
                 }
             });
-
+            //HINT BUTTON 2 ON CLICK EVENT
             $('#hint-button-2').click(function () {
                 if (gameObject.hintsLeft > 0){
                 $('#second-hint').show();
@@ -135,26 +143,32 @@ $(document).ready(function () {
             }
             });
 
+
+            //IF ONE OF THE ANSWER BUTTONS HAS BEEN CLICKED
             $('.btnans').click( function () {
                 var getAnswerValue = $(this).attr("value");
                 console.log(getAnswerValue);
                 
                 
-                console.log(gameObject.questionsObject[randomize].correct);
-                var correctAnswer = gameObject.questionsObject[randomize].correct;
                 
+                var correctAnswer = gameObject.questionsObject[randomize].correct;
+                console.log(correctAnswer);
                 var lastQuestion = gameObject.questionsObject[randomize].question;
+                
+                //IF THE ANSWER CLICKED IS TRUE
+                if(getAnswerValue === correctAnswer) {
+                    setTimeout(function () {
+                        gameObject.giveAnswer(true, lastQuestion);
+                    }, 500);
+                //IF THE ANSWER CLICKED IS FALSE    
+                } else if(getAnswerValue !== correctAnswer) {                   
+                    setTimeout(function () {
+                        gameObject.giveAnswer(false, lastQuestion);
+                    }, 500);
+                } 
 
-                if(getAnswerValue === gameObject.questionsObject[randomize].correct) {
-                    
-
-                    gameObject.giveAnswer(true, lastQuestion);
-                } else if(getAnswerValue !== gameObject.questionsObject[randomize].correct) {
-                    
-                    
-                   
-                    gameObject.giveAnswer(false, lastQuestion);
-                }
+                
+                
             });
         },
         checkMenuClicks: function () {
