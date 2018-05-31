@@ -52,7 +52,7 @@ $(document).ready(function () {
                 correct: "Gamma",
                 hints: ["Not from the Alpha or Beta Quadrants", "Affiliated with Dominion command positions"],
             },
-            
+
             {
                 question: "What style government do the Breen use?",
                 answers: ["Confederation", "High Council", "Senate", "Federation"],
@@ -62,11 +62,18 @@ $(document).ready(function () {
 
             {
                 question: "Where are the Ferengi from?",
-                answers: ["Qonos", "Remus", "Romulus", "Feringinar"],
+                answers: ["Q'o'nos", "Remus", "Romulus", "Feringinar"],
                 correct: "Feringinar",
                 hints: ["They are perpetually neutral", "They're known for ears and trade"],
             }
         ],
+        setupBackground: function () {
+            var randomBG = Math.floor((Math.random() * 9) + 1);
+            console.log(randomBG + ' this is the random background #');
+            var backgroundString = "assets/bg/0" + randomBG + ".jpg";
+            console.log(backgroundString);
+            $('body').css("background-image", "url(" + backgroundString + ")"); 
+        },
         resetVariables: function () {
             this.totalWins = 0;
             this.totalLosses = 0;
@@ -79,11 +86,12 @@ $(document).ready(function () {
             $('#main-menu').show();
             $('#receive-question').hide();
             $('#result').hide();
+            gameObject.setupBackground();
             this.mainMenuLoad();
             //INSERT MENU HERE
-            var menuString1 = '<div class="container" id="main-menu"><div class="container" id="title-container"><div class="row" id="title-row"><div class="col-md-3"></div><div class="col-md-6"><h1>Trivia Application!</h1></div><div class="col-md-3"></div></div>';
-            var menuString2 = '<div class="row" id="difficulty-select"><div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select"><button type="button" class="btn btn-lg diff-button btn-success">Easy</button></div><br><div class="row diff-select" id="medium-select"><button type="button" class="btn btn-lg diff-button btn-warning">Medium</button></div><br><div class="row diff-select" id="hard-select"><button type="button" class="btn btn-lg diff-button btn-danger">Hard</button></div><br></div><div class="col-md-3"></div></div>';
-            var menuString3 = '<div class="row" id="portfolio-tiles"></div><div class="col-md-2"></div><div class="col-md-2"><a href="https://www.linkedin.com" target="_new"><img src="assets/img/in.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://www.github.com/zigbs" target="_new"><img src="assets/img/github.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://wwww.slideshare.net" target="_new"><img src="assets/img/share.png" height="75" width="75"></a></div><div class="col-md-2"><a href="mailto:zigbs.zigbs@gmail.com"><img src="assets/img/email.png" height="75" width="75"></a></div><div class="col-md-2"></div></div></div>';
+            var menuString1 = '<div class="container" id="main-menu"><div class="container" id="title-container"><div class="row" id="title-row"><div class="col-md-3"></div><div class="col-md-6"><h1 class="trivia-title">Trivia Application!</h1></div><div class="col-md-3"></div></div>';
+            var menuString2 = '<div class="row" id="difficulty-select"><div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select"><button type="button" class="btn btn-lg diff-button btn-success"><h1>Easy: 2 hints, 2 tries</h1></button></div><br><div class="row diff-select" id="medium-select"><button type="button" class="btn btn-lg diff-button btn-warning"><h1>Medium: 1 hint, 1 try</h1></button></div><br><div class="row diff-select" id="hard-select"><button type="button" class="btn btn-lg diff-button btn-danger"><h0>Hard</h0></button></div><br></div><div class="col-md-3"></div></div>';
+            var menuString3 = '<div class="row" id="portfolio-tiles"></div><div class="col-md-2"></div><div class="col-md-2"><a href="https://www.linkedin.com" target="_new"><img id="linkedin-button" class="portfolio-btn"  src="assets/img/in.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://www.github.com/zigbs" target="_new"><img id="github-button" class="portfolio-btn" src="assets/img/github.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://wwww.slideshare.net" target="_new"><img class="portfolio-btn"  id="slideshare-button" src="assets/img/share.png" height="75" width="75"></a></div><div class="col-md-2"><a href="mailto:zigbs.zigbs@gmail.com"><img class="portfolio-btn"  id="email-button" src="assets/img/email.png" height="75" width="75"></a></div><div class="col-md-2"></div></div></div>';
             $('#game-container').empty().append(menuString1).append(menuString2).append(menuString3);
         },
         loadHintTry: function () {
@@ -117,7 +125,7 @@ $(document).ready(function () {
             var randomize = Math.floor(Math.random() * questionArray);
             console.log(randomize + " is the random value selected");
             gameObject.updateWinsLosses();
-            var levelTimer = ((20000 / (gameObject.difficulty + 1))/1000);
+            var levelTimer = ((20000 / (gameObject.difficulty + 1)) / 1000);
             $('#level-timer').empty().append(levelTimer + " Seconds");
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
             var hintsRemString = gameObject.hintsLeft;
@@ -183,7 +191,6 @@ $(document).ready(function () {
                         gameObject.totalWins++;
                         gameObject.giveAnswer(true, lastQuestion, correctAnswer, getAnswerValue);
                         gameObject.updateWinsLosses();
-
                     }, 500);
                     //IF THE ANSWER CLICKED IS FALSE    
                 } else if (getAnswerValue !== correctAnswer) {
@@ -194,7 +201,6 @@ $(document).ready(function () {
                     }, 500);
                 } else { //nothing follows                    
                 }
-                
             });
         },
         checkMenuClicks: function () {
@@ -218,7 +224,6 @@ $(document).ready(function () {
                 setTimeout(function () {
                     gameObject.receiveQuestion();
                 }, 2000);
-
             });
         },
         receiveQuestion: function () {
@@ -229,7 +234,6 @@ $(document).ready(function () {
             var receiveHTML1 = '<div class="container" id="receive-question"><div class="row" id="top-nav-bar" style="background: #DDDDDD;"><div class="row" id="top-nav-row"><div class="col-sm-4" id="questions-completed"># Questions Completed</div><div class="col-sm-4" id="menu-button"><button type="button" class="btn btn-md btn-primary">Menu</button></div><div class="col-sm-4" id="hints-remaining"># Hints Remaining</div></div><div class="row" id="bottom-nav-row"><div class="col-sm-4" id="questions-failed"># Questions Failed</div><div class="col-sm-4" id="level-timer">TIMER</div><div class="col-sm-4" id="tries-left"># Tries Left</div></div></div>';
             var receiveHTML2 = '<div class="row" id="question-row" style="min-height:10%"><div class="col-sm-4"></div><div class="col-lg-4" id="question"></div><div class="col-sm-4"></div></div><div class="row" id="hints-row"><div class="row" id="hint-num-1"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-1"></div><div class="row" id="first-hint"></div><br></div><div class="col-md-4"></div></div><div class="row" id="hint-num-2"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-2"><button type="button" class="btn btn-warning" id="hint-button-2">Hint 2</button></div><div class="row" id="second-hint"></div><br></div><div class="col-md-4"></div></div>';
             var receiveHTML3 = '</div><div class="row" id="user-input"><div class="row" class="answer-button"><div class="col-sm-2"></div><div class="col-sm-4" class="answer-button" id="answer-a"></div><div class="col-sm-4" class="answer-button" id="answer-c"></div><div class="col-sm-2"></div></div><div class="row"><div class="col-sm-2"></div><div class="col-sm-4" class="answer-button" id="answer-b"></div><div class="col-sm-4" class="answer-button" id="answer-d"></div><div class="col-sm-2"></div></div></div></div>';
-           
             $('#game-container').empty().append(receiveHTML1).append(receiveHTML2).append(receiveHTML3);
             this.loadHintTry();
             this.outputInfo();

@@ -1,0 +1,39 @@
+/*
+            if (randomBG === 1) {
+                $('body').css("background-image", "url('assets/bg/01.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#222222");
+            } else if (randomBG === 2) {
+                $('body').css("background-image", "url('assets/bg/02.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#111111");
+            } else if (randomBG === 3) {
+                $('body').css("background-image", "url('assets/bg/03.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#121212");
+            } else if (randomBG === 4) {
+                $('body').css("background-image", "url('assets/bg/04.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#222222");
+            } else if (randomBG === 5) {
+                $('body').css("background-image", "url('assets/bg/05.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#222222");
+            } else if (randomBG === 6) {
+                $('body').css("background-image", "url('assets/bg/06.jpg')");
+                $('body').css("background-repeat", "repeat");
+                $('body').css("background-color", "#222222");
+            } else if (randomBG === 7) {
+                $('body').css("background-image", "url('assets/bg/07.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#222222");
+            }else if (randomBG === 8) {
+                $('body').css("background-image", "url('assets/bg/08.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#222222");
+            }else if (randomBG === 9) {
+                $('body').css("background-image", "url('assets/bg/09.jpg')");
+                $('body').css("background-repeat", "no-repeat");
+                $('body').css("background-color", "#222222");
+            }
+            */

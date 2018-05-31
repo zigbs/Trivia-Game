@@ -1,10 +1,12 @@
 /* CSS STYLE SHEET OVERRIDE */
 
 .diff-button {
-    min-width: 100%;
+    min-width: 80%;
+    max-width: 80%;
     min-height: 10%;
-}
+    text-align: center;
 
+}
 
 .hint-button {
     min-width: 80%;
@@ -15,4 +17,21 @@
     min-width: 70%;
     min-height: 12%;
     margin: 10px;
+}
+
+.trivia-title {
+    color: #EEEEEE;
+    font-size: 62px;
+    margin-bottom: 10%;
+}
+
+.portfolio-btn {
+    background-color: #EEE;
+    opacity: 70%;
+}
+
+
+h0 {
+    font-size: 64px;
+
 }
