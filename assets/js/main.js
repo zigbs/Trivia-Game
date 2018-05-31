@@ -83,6 +83,11 @@ $(document).ready(function () {
                 $('#hint-button-2').empty().append(htmlString2);
             }
         },
+        timeOut: function (){
+            setTimeout(function () {
+                gameObject.giveAnswer(false, lastQuestion);
+        }, 6000);
+        },
         outputInfo: function () {
             var questionArray = gameObject.questionsObject.length;
             console.log(questionArray + ' Is the length of question Array ');
@@ -90,13 +95,9 @@ $(document).ready(function () {
             console.log(randomize + " is the random value selected");
             console.log(this.questionsObject[randomize].hints[0]);
 
-            setTimeout(function () {
-                    gameObject.giveAnswer(false, lastQuestion);
-                }, 6000);
-            
+            gameObject.timeOut();
 
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
-
             var hintsRemString = gameObject.hintsLeft;
             $('#hints-remaining').empty().append('There are ' + hintsRemString +' hints left.');
 
@@ -126,8 +127,6 @@ $(document).ready(function () {
             $('#second-hint').hide().append(Hint2String);
             console.log(Hint2String);
 
-            
-
             //HINT BUTTON 1 ON CLICK EVENT
             $('#hint-button-1').click(function () {
                 if (gameObject.hintsLeft > 0){
@@ -143,13 +142,10 @@ $(document).ready(function () {
             }
             });
 
-
             //IF ONE OF THE ANSWER BUTTONS HAS BEEN CLICKED
             $('.btnans').click( function () {
                 var getAnswerValue = $(this).attr("value");
                 console.log(getAnswerValue);
-                
-                
                 
                 var correctAnswer = gameObject.questionsObject[randomize].correct;
                 console.log(correctAnswer);
@@ -158,17 +154,14 @@ $(document).ready(function () {
                 //IF THE ANSWER CLICKED IS TRUE
                 if(getAnswerValue === correctAnswer) {
                     setTimeout(function () {
-                        gameObject.giveAnswer(true, lastQuestion);
+                        gameObject.giveAnswer(true, lastQuestion, correctAnswer, getAnswerValue);
                     }, 500);
                 //IF THE ANSWER CLICKED IS FALSE    
                 } else if(getAnswerValue !== correctAnswer) {                   
                     setTimeout(function () {
-                        gameObject.giveAnswer(false, lastQuestion);
+                        gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
                     }, 500);
                 } 
-
-                
-                
             });
         },
         checkMenuClicks: function () {
@@ -214,7 +207,7 @@ $(document).ready(function () {
             var hintsRemString1 = gameObject.hintsLeft;
             $('#hints-remaining').empty().append('There are ' + hintsRemString1 +' hints left.');
         },
-        giveAnswer: function (questionTruth, question) {
+        giveAnswer: function (questionTruth, question, answer, userpick) {
             $('#main-menu').hide();
             $('#result').show();
             $('#receive-question').hide();
@@ -222,7 +215,10 @@ $(document).ready(function () {
             console.log(question + ": is the question at play");
             console.log(questionTruth + "...Was the question right?")
             var theAnswerString = '<h2>' + question + '</h2>';
-            $('#the-answer').empty().append(theAnswerString);
+            var theAnswerString2 = '<h2>The answer was: ' + answer + '</h2>';
+            var theAnswerString3 = '<h3>You picked: ' + userpick + '</h2>';
+            $('#the-answer').empty().append(theAnswerString).append(theAnswerString2).append(theAnswerString3);
+
 
             if(questionTruth === true){
                 console.log(gameObject.lastAnswerTruth + ' : answer to the previous question');
