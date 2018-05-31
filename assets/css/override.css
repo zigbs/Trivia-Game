@@ -1,1 +1,18 @@
 /* CSS STYLE SHEET OVERRIDE */
+
+.diff-button {
+    min-width: 100%;
+    min-height: 10%;
+}
+
+
+.hint-button {
+    min-width: 80%;
+    min-height: 10%;
+}
+
+.btnans {
+    min-width: 70%;
+    min-height: 12%;
+    margin: 10px;
+}

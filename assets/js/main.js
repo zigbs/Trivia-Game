@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    //object declarations go here
     var gameObject = {
         name: "Trivia Game",
         totalWins: 0,
@@ -81,12 +80,11 @@ $(document).ready(function () {
             $('#receive-question').hide();
             $('#result').hide();
             this.mainMenuLoad();
-            
+            //INSERT MENU HERE
             var menuString1 = '<div class="container" id="main-menu"><div class="container" id="title-container"><div class="row" id="title-row"><div class="col-md-3"></div><div class="col-md-6"><h1>Trivia Application!</h1></div><div class="col-md-3"></div></div>';
-            var menuString2 = '<div class="row" id="difficulty-select"><div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select"><button type="button" class="btn btn-success">Easy</button></div><br><div class="row diff-select" id="medium-select"><button type="button" class="btn btn-warning">Medium</button></div><br><div class="row diff-select" id="hard-select"><button type="button" class="btn btn-danger">Hard</button></div><br></div><div class="col-md-3"></div></div>';
-            var menuString3 = '<div class="row" id="portfolio-tiles"></div><div class="col-md-2"></div><div class="col-md-2">IN</div><div class="col-md-2">github</div><div class="col-md-2">slides</div><div class="col-md-2">projects</div><div class="col-md-2"></div></div></div>';
+            var menuString2 = '<div class="row" id="difficulty-select"><div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select"><button type="button" class="btn btn-lg diff-button btn-success">Easy</button></div><br><div class="row diff-select" id="medium-select"><button type="button" class="btn btn-lg diff-button btn-warning">Medium</button></div><br><div class="row diff-select" id="hard-select"><button type="button" class="btn btn-lg diff-button btn-danger">Hard</button></div><br></div><div class="col-md-3"></div></div>';
+            var menuString3 = '<div class="row" id="portfolio-tiles"></div><div class="col-md-2"></div><div class="col-md-2"><a href="https://www.linkedin.com" target="_new"><img src="assets/img/in.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://www.github.com/zigbs" target="_new"><img src="assets/img/github.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://wwww.slideshare.net" target="_new"><img src="assets/img/share.png" height="75" width="75"></a></div><div class="col-md-2"><a href="mailto:zigbs.zigbs@gmail.com"><img src="assets/img/email.png" height="75" width="75"></a></div><div class="col-md-2"></div></div></div>';
             $('#game-container').empty().append(menuString1).append(menuString2).append(menuString3);
-
         },
         loadHintTry: function () {
             if (this.difficulty === 2) {
@@ -94,13 +92,13 @@ $(document).ready(function () {
                 $('#hint-button-2').empty();
             }
             if (this.difficulty === 1) {
-                var htmlString = '<button type="button" class="btn btn-warning" id="hint-button-1">Hint 1</button>';
+                var htmlString = '<button type="button" class="btn hint-button btn-warning" id="hint-button-1">Hint 1</button>';
                 $('#hint-button-1').empty().append(htmlString);
                 $('#hint-button-2').empty();
             }
             if (this.difficulty === 0) {
-                var htmlString = '<button type="button" class="btn btn-warning" id="hint-button-1">Hint 1</button>';
-                var htmlString2 = '<button type="button" class="btn btn-warning" id="hint-button-2">Hint 2</button>';
+                var htmlString = '<button type="button" class="btn hint-button btn-warning" id="hint-button-1">Hint 1</button>';
+                var htmlString2 = '<button type="button" class="btn hint-button btn-warning" id="hint-button-2">Hint 2</button>';
                 $('#hint-button-1').empty().append(htmlString);
                 $('#hint-button-2').empty().append(htmlString2);
             }
@@ -119,11 +117,8 @@ $(document).ready(function () {
             var randomize = Math.floor(Math.random() * questionArray);
             console.log(randomize + " is the random value selected");
             gameObject.updateWinsLosses();
-
             var levelTimer = ((20000 / (gameObject.difficulty + 1))/1000);
             $('#level-timer').empty().append(levelTimer + " Seconds");
-
-
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
             var hintsRemString = gameObject.hintsLeft;
             $('#hints-remaining').empty().append('There are ' + hintsRemString + ' hints left.');
@@ -134,15 +129,14 @@ $(document).ready(function () {
                 gameObject.loadGame();
             });
             //OUTPUT ALL 4 ANSWERS TO THE USER
-            var AnswerAString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[0] + '">' + this.questionsObject[randomize].answers[0] + '</button>';
+            var AnswerAString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[0] + '"><h1>' + this.questionsObject[randomize].answers[0] + '</h1></button>';
             $('#answer-a').empty().append(AnswerAString);
-            var AnswerBString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[1] + '">' + this.questionsObject[randomize].answers[1] + '</button>';
+            var AnswerBString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[1] + '"><h1>' + this.questionsObject[randomize].answers[1] + '</h1></button>';
             $('#answer-b').empty().append(AnswerBString);
-            var AnswerCString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[2] + '">' + this.questionsObject[randomize].answers[2] + '</button>';
+            var AnswerCString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[2] + '"><h1>' + this.questionsObject[randomize].answers[2] + '</h1></button>';
             $('#answer-c').empty().append(AnswerCString);
-            var AnswerDString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[3] + '">' + this.questionsObject[randomize].answers[3] + '</button>';
+            var AnswerDString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[3] + '"><h1>' + this.questionsObject[randomize].answers[3] + '</h1></button>';
             $('#answer-d').empty().append(AnswerDString);
-
             //THIS CLEARS EVERYTHING OUT SO THAT WE HAVE CLEAN HINTS
             $('#first-hint').empty();
             $('#second-hint').empty();
@@ -152,7 +146,6 @@ $(document).ready(function () {
             var Hint2String = "HINT #2  " + gameObject.questionsObject[randomize].hints[1];
             $('#second-hint').hide().append(Hint2String);
             console.log(Hint2String);
-
             //HINT BUTTON 1 ON CLICK EVENT
             $('#hint-button-1').click(function () {
                 if (gameObject.hintsLeft > 0) {
@@ -167,7 +160,6 @@ $(document).ready(function () {
                     gameObject.updateHints();
                 }
             });
-
             setTimeout(function () {
                 gameObject.totalLosses++;
                 gameObject.updateWinsLosses();
@@ -176,19 +168,15 @@ $(document).ready(function () {
                 gameObject.giveAnswer(false, gameObject.lastQuestion, gameObject.lastAnswer, "You didn't even guess!");
                 console.log('Question has timed out');
             }, 20000 / (gameObject.difficulty + 1));
-
-
             //IF ONE OF THE ANSWER BUTTONS HAS BEEN CLICKED
             $('.btnans').click(function () {
                 var getAnswerValue = undefined;
                 var getAnswerValue = $(this).attr("value");
                 console.log(getAnswerValue);
-
                 var correctAnswer = gameObject.questionsObject[randomize].correct;
                 console.log(correctAnswer);
                 var lastQuestion = gameObject.questionsObject[randomize].question;
                 console.log(lastQuestion);
-
                 //IF THE ANSWER CLICKED IS TRUE
                 if (getAnswerValue === correctAnswer) {
                     setTimeout(function () {
@@ -210,21 +198,17 @@ $(document).ready(function () {
             });
         },
         checkMenuClicks: function () {
-
             $('#easy-select').click(function () {
-
                 gameObject.difficulty = 0;
                 console.log(gameObject.difficulty);
                 gameObject.hintsLeft = 2;
             });
             $('#medium-select').click(function () {
-
                 gameObject.difficulty = 1;
                 console.log(gameObject.difficulty);
                 gameObject.hintsLeft = 1;
             });
             $('#hard-select').click(function () {
-
                 gameObject.difficulty = 2;
                 console.log(gameObject.difficulty);
                 gameObject.hintsLeft = 0;
@@ -241,13 +225,11 @@ $(document).ready(function () {
             $('#main-menu').hide();
             $('#result').hide();
             $('#receive-question').show();
-
+            //INSERT QUESTION
             var receiveHTML1 = '<div class="container" id="receive-question"><div class="row" id="top-nav-bar" style="background: #DDDDDD;"><div class="row" id="top-nav-row"><div class="col-sm-4" id="questions-completed"># Questions Completed</div><div class="col-sm-4" id="menu-button"><button type="button" class="btn btn-md btn-primary">Menu</button></div><div class="col-sm-4" id="hints-remaining"># Hints Remaining</div></div><div class="row" id="bottom-nav-row"><div class="col-sm-4" id="questions-failed"># Questions Failed</div><div class="col-sm-4" id="level-timer">TIMER</div><div class="col-sm-4" id="tries-left"># Tries Left</div></div></div>';
             var receiveHTML2 = '<div class="row" id="question-row" style="min-height:10%"><div class="col-sm-4"></div><div class="col-lg-4" id="question"></div><div class="col-sm-4"></div></div><div class="row" id="hints-row"><div class="row" id="hint-num-1"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-1"></div><div class="row" id="first-hint"></div><br></div><div class="col-md-4"></div></div><div class="row" id="hint-num-2"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-2"><button type="button" class="btn btn-warning" id="hint-button-2">Hint 2</button></div><div class="row" id="second-hint"></div><br></div><div class="col-md-4"></div></div>';
             var receiveHTML3 = '</div><div class="row" id="user-input"><div class="row" class="answer-button"><div class="col-sm-2"></div><div class="col-sm-4" class="answer-button" id="answer-a"></div><div class="col-sm-4" class="answer-button" id="answer-c"></div><div class="col-sm-2"></div></div><div class="row"><div class="col-sm-2"></div><div class="col-sm-4" class="answer-button" id="answer-b"></div><div class="col-sm-4" class="answer-button" id="answer-d"></div><div class="col-sm-2"></div></div></div></div>';
            
-
-
             $('#game-container').empty().append(receiveHTML1).append(receiveHTML2).append(receiveHTML3);
             this.loadHintTry();
             this.outputInfo();
@@ -264,31 +246,27 @@ $(document).ready(function () {
             $('#main-menu').hide();
             $('#result').show();
             $('#receive-question').hide();
-
-            
-            var giveAnswerHTML1 = '<div class="container" id="result"><div class="row" id="result-row"><div class="col-sm-3"></div><div class="col-lg-6" id="the-result"></div><div class="col-sm-3"></div></div><div class="row" id="answer-result"><div class="col-sm-3"></div><div class="col-lg-6" id="the-answer" style="background: lightgreen;">The Answer</div><div class="col-sm-3"></div></div>';
+            //INSERT ANSWER SCREEN
+            var giveAnswerHTML1 = '<div class="container" id="result"><div class="row" id="result-row"><div class="col-sm-3"></div><div class="col-lg-6" id="the-result"></div><div class="col-sm-3"></div></div><div class="row" id="answer-result"><div class="col-sm-3"></div><div class="col-lg-6" id="the-answer">The Answer</div><div class="col-sm-3"></div></div>';
             var giveAnswerHTML2 = '<div class="row" id="user-stats"><div class="row" id="user-stats-row-1"><div class="col-sm-3"></div><div class="col-sm-3" id="incorrect-questions"># Incorrect</div><div id="question-rate" id="question-rate" class="col-sm-3">Question Rate</div><div class="col-sm-3"></div></div><div class="row" id="user-stats-row-2"><div class="col-sm-3"></div><div class="col-sm-3" id="correct-questions"># Correct</div><div class="col-sm-3" id="answer-rate">Answer Rate</div><div class="col-sm-3"></div></div></div>';
             var giveAnswerHTML3 = '<div class="row" id="user-feedback"><div class="col-sm-3"></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-warning" id="answer-menu-backout">Menu</button></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-success" id="answer-keep-going">Keep Going!</button></div><div class="col-sm-3"></div></div></div>';
             $('#game-container').empty().append(giveAnswerHTML1).append(giveAnswerHTML2).append(giveAnswerHTML3)
-
             console.log(question + ": is the question at play");
             console.log(questionTruth + "...Was the question right?")
             var theAnswerString = '<h2>' + question + '</h2>';
             var theAnswerString2 = '<h2>The answer was: <strong>' + answer + '</strong></h2>';
             var theAnswerString3 = '<h3>You picked: ' + userpick + '</h2>';
             $('#the-answer').empty().append(theAnswerString).append(theAnswerString2).append(theAnswerString3);
-
-
             if (questionTruth === true) {
                 console.log(gameObject.lastAnswerTruth + ' : answer to the previous question');
                 var answerString = '<h1>The Question was correct!</h1>';
                 $('#the-result').empty().append(answerString);
-
+                $('#the-result').css("background-color", "lightgreen");
             } else if (questionTruth === false) {
                 console.log(gameObject.lastAnswerTruth + ' : answer to the previous question');
                 var answerString2 = '<h1>The Question was WRONG!</h1>';
                 $('#the-result').empty().append(answerString2);
-
+                $('#the-result').css("background-color", "red");
             }
             //THIS SETS A TIMEOUT TO KEEP THINGS GOING
             setTimeout(function () {
@@ -301,7 +279,6 @@ $(document).ready(function () {
                 gameObject.loadGame();
             });
         }
-
     };
     //BY DEFAULT THE MENU IS DISPLAYED
     gameObject.loadGame();
