@@ -3,8 +3,8 @@
 <head>
     <title>Trivia Game</title>
 
-    <link rel="stylesheet" type="text/css" href="assets/override.css">
-
+    <!-- <link rel="stylesheet" type="text/css" href="assets/override.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
@@ -53,11 +53,11 @@
             </div>
         </div>
 
-        <div class="container" id="receive-question"> //container setup
+        <div class="container" id="receive-question"> 
             <div class="row" id="top-nav-bar" style="background: #DDDDDD;">
                 <div class="row" id="top-nav-row">
                     <div class="col-sm-4" id="questions-completed"># Questions Completed</div>
-                    <div class="col-sm-4" id=""></div>
+                    <div class="col-sm-4" id="menu-button"><button type="button" class="btn btn-md btn-primary">Menu</button></div>
                     <div class="col-sm-4" id="hints-remaining"># Hints Remaining</div>
                 </div>
                 <div class="row" id="bottom-nav-row">
@@ -72,7 +72,7 @@
                     <h1>What is the basic Romulan of the vortex?</h1>
                 </div>
                 <div class="col-sm-4"></div>
-            </div>');
+            </div>
             <div class="row" id="hints-row">
                 <div class="row" id="hint-num-1">
                     <div class="col-md-4"></div>
@@ -114,7 +114,7 @@
         </div>
 
 
-        <div class="container" id="result"> //container setup
+        <div class="container" id="result"> 
             <div class="row" id="result-row">
                 <div class="col-sm-3"></div>
                 <div class="col-lg-6" id="the-result">
@@ -130,24 +130,24 @@
             <div class="row" id="user-stats">
                 <div class="row" id="user-stats-row-1">
                     <div class="col-sm-3"></div>
-                    <div class="col-sm-3"># Incorrect</div>
-                    <div id="question-rate" class="col-sm-3">Question Rate</div>
+                    <div class="col-sm-3" id="incorrect-questions"># Incorrect</div>
+                    <div id="question-rate" id="question-rate" class="col-sm-3">Question Rate</div>
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="row" id="user-stats-row-2">
                     <div class="col-sm-3"></div>
-                    <div class="col-sm-3"># Correct</div>
-                    <div class="col-sm-3">Answer Rate</div>
+                    <div class="col-sm-3" id="correct-questions"># Correct</div>
+                    <div class="col-sm-3" id="answer-rate">Answer Rate</div>
                     <div class="col-sm-3"></div>
                 </div>
             </div>
             <div class="row" id="user-feedback">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-md btn-warning">Menu</button>
+                    <button type="button" class="btn btn-md btn-warning" id="answer-menu-backout">Menu</button>
                 </div>
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-md btn-success">Keep Going!</button>
+                    <button type="button" class="btn btn-md btn-success" id="answer-keep-going">Keep Going!</button>
                 </div>
                 <div class="col-sm-3"></div>
             </div>
