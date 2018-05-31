@@ -15,6 +15,8 @@ $(document).ready(function () {
         lastAnswerTruth: false,
         lastAnswerValue: " ",
         hasClicked: false,
+        lastQuestion: " ",
+        lastAnswer: " ",
         difficulty: 2, //by default this is hard.  There are no tries nor are there hints.  This was done to get a minimally viable program
         questionsObject: [
             {
@@ -83,27 +85,28 @@ $(document).ready(function () {
                 $('#hint-button-2').empty().append(htmlString2);
             }
         },
-        updateWinsLosses: function () { 
+        updateWinsLosses: function () {
             var winsString = gameObject.totalWins;
             var lossString = gameObject.totalLosses;
             $('#questions-completed').empty().append(winsString + ' Total Wins');
             $('#questions-failed').empty().append(lossString + ' Total Losses');
+            $('#correct-questions').empty().append(winsString + ' Total Wins');
+            $('#incorrect-questions').empty().append(lossString + ' Total Losses');
         },
         outputInfo: function () {
             var questionArray = gameObject.questionsObject.length;
             console.log(questionArray + ' Is the length of question Array ');
             var randomize = Math.floor(Math.random() * questionArray);
             console.log(randomize + " is the random value selected");
-            //console.log(this.questionsObject[randomize].hints[0]);
+            gameObject.updateWinsLosses();
 
-            var winsString = gameObject.totalWins;
-            var lossString = gameObject.totalLosses;
-            $('#questions-completed').empty().append(winsString + ' Total Wins');
-            $('#questions-failed').empty().append(lossString + ' Total Losses');
+            var levelTimer = ((20000 / (gameObject.difficulty + 1))/1000);
+            $('#level-timer').empty().append(levelTimer + " Seconds");
+
 
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
             var hintsRemString = gameObject.hintsLeft;
-            $('#hints-remaining').empty().append('There are ' + hintsRemString +' hints left.');
+            $('#hints-remaining').empty().append('There are ' + hintsRemString + ' hints left.');
             //HERE IS WHERE THE QUESTIONS SPIT OUT
             $('#question').empty().append(htmlString);
             //IF THE MENU BUTTON IS CLICKED -> MAIN MENU
@@ -132,48 +135,58 @@ $(document).ready(function () {
 
             //HINT BUTTON 1 ON CLICK EVENT
             $('#hint-button-1').click(function () {
-                if (gameObject.hintsLeft > 0){
-                $('#first-hint').show();
+                if (gameObject.hintsLeft > 0) {
+                    $('#first-hint').show();
                     gameObject.updateHints();
                 }
             });
             //HINT BUTTON 2 ON CLICK EVENT
             $('#hint-button-2').click(function () {
-                if (gameObject.hintsLeft > 0){
-                $('#second-hint').show();
+                if (gameObject.hintsLeft > 0) {
+                    $('#second-hint').show();
                     gameObject.updateHints();
-            }
+                }
             });
 
+            setTimeout(function () {
+                gameObject.totalLosses++;
+                gameObject.lastAnswer = gameObject.questionsObject[randomize].correct;
+                gameObject.lastQuestion = gameObject.questionsObject[randomize].question;
+                gameObject.giveAnswer(false, gameObject.lastQuestion, gameObject.lastAnswer, "No user input");
+                gameObject.updateWinsLosses();
+                console.log('Question has timed out');
+            }, 20000 / (gameObject.difficulty + 1));
+
+
             //IF ONE OF THE ANSWER BUTTONS HAS BEEN CLICKED
-            $('.btnans').click( function () {
+            $('.btnans').click(function () {
+                var getAnswerValue = undefined;
                 var getAnswerValue = $(this).attr("value");
                 console.log(getAnswerValue);
-                
+
                 var correctAnswer = gameObject.questionsObject[randomize].correct;
                 console.log(correctAnswer);
                 var lastQuestion = gameObject.questionsObject[randomize].question;
-                
+                console.log(lastQuestion);
+
                 //IF THE ANSWER CLICKED IS TRUE
-                if(getAnswerValue === correctAnswer) {
+                if (getAnswerValue === correctAnswer) {
                     setTimeout(function () {
                         gameObject.totalWins++;
                         gameObject.giveAnswer(true, lastQuestion, correctAnswer, getAnswerValue);
-                        updateWinsLosses();
-                        
+                        gameObject.updateWinsLosses();
+
                     }, 500);
-                //IF THE ANSWER CLICKED IS FALSE    
-                } else if(getAnswerValue !== correctAnswer) {                   
+                    //IF THE ANSWER CLICKED IS FALSE    
+                } else if (getAnswerValue !== correctAnswer) {
                     setTimeout(function () {
                         gameObject.totalLosses++;
                         gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
-                        updateWinsLosses();
+                        gameObject.updateWinsLosses();
                     }, 500);
+                } else { //nothing follows                    
                 }
-
-                    gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
-                    console.log('Question has timed out');
-
+                
             });
         },
         checkMenuClicks: function () {
@@ -217,7 +230,7 @@ $(document).ready(function () {
             gameObject.totalHints++;
             console.log("You user have used a total of" + gameObject.totalHints + "hints");
             var hintsRemString1 = gameObject.hintsLeft;
-            $('#hints-remaining').empty().append('There are ' + hintsRemString1 +' hints left.');
+            $('#hints-remaining').empty().append('There are ' + hintsRemString1 + ' hints left.');
         },
         giveAnswer: function (questionTruth, question, answer, userpick) {
             $('#main-menu').hide();
@@ -232,22 +245,24 @@ $(document).ready(function () {
             $('#the-answer').empty().append(theAnswerString).append(theAnswerString2).append(theAnswerString3);
 
 
-            if(questionTruth === true){
+            if (questionTruth === true) {
                 console.log(gameObject.lastAnswerTruth + ' : answer to the previous question');
                 var answerString = '<h1>The Question was correct!</h1>';
                 $('#the-result').empty().append(answerString);
 
-            } else if(questionTruth === false){
+            } else if (questionTruth === false) {
                 console.log(gameObject.lastAnswerTruth + ' : answer to the previous question');
                 var answerString2 = '<h1>The Question was WRONG!</h1>';
                 $('#the-result').empty().append(answerString2);
-                
-            }
 
+            }
+            //THIS SETS A TIMEOUT TO KEEP THINGS GOING
+            setTimeout(function () {
+                gameObject.receiveQuestion();
+            }, 70000);
             $('#answer-keep-going').click(function () {
                 gameObject.receiveQuestion();
             });
-        
             $('#answer-menu-backout').click(function () {
                 gameObject.loadGame();
             });
@@ -262,7 +277,7 @@ $(document).ready(function () {
 
 
 
-    
+
 
 
 });
