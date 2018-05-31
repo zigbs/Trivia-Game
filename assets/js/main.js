@@ -48,10 +48,24 @@ $(document).ready(function () {
             },
 
             {
-                question: "Which race is NOT a Vulcanoid?",
-                answers: ["Garidian", "Vulcan", "Romulan", "Vorta"],
-                correct: "Vorta",
+                question: "Which quadrant are the Founders from?",
+                answers: ["Alpha", "Beta", "Delta", "Gamma"],
+                correct: "Gamma",
                 hints: ["Not from the Alpha or Beta Quadrants", "Affiliated with Dominion command positions"],
+            },
+            
+            {
+                question: "What style government do the Breen use?",
+                answers: ["Confederation", "High Council", "Senate", "Federation"],
+                correct: "Confederation",
+                hints: ["Canada has this style of government", "This is NOT a throw-back to the American South"],
+            },
+
+            {
+                question: "Where are the Ferengi from?",
+                answers: ["Qonos", "Remus", "Romulus", "Feringinar"],
+                correct: "Feringinar",
+                hints: ["They are perpetually neutral", "They're known for ears and trade"],
             }
         ],
         resetVariables: function () {
@@ -67,6 +81,12 @@ $(document).ready(function () {
             $('#receive-question').hide();
             $('#result').hide();
             this.mainMenuLoad();
+            
+            var menuString1 = '<div class="container" id="main-menu"><div class="container" id="title-container"><div class="row" id="title-row"><div class="col-md-3"></div><div class="col-md-6"><h1>Trivia Application!</h1></div><div class="col-md-3"></div></div>';
+            var menuString2 = '<div class="row" id="difficulty-select"><div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select"><button type="button" class="btn btn-success">Easy</button></div><br><div class="row diff-select" id="medium-select"><button type="button" class="btn btn-warning">Medium</button></div><br><div class="row diff-select" id="hard-select"><button type="button" class="btn btn-danger">Hard</button></div><br></div><div class="col-md-3"></div></div>';
+            var menuString3 = '<div class="row" id="portfolio-tiles"></div><div class="col-md-2"></div><div class="col-md-2">IN</div><div class="col-md-2">github</div><div class="col-md-2">slides</div><div class="col-md-2">projects</div><div class="col-md-2"></div></div></div>';
+            $('#game-container').empty().append(menuString1).append(menuString2).append(menuString3);
+
         },
         loadHintTry: function () {
             if (this.difficulty === 2) {
@@ -150,10 +170,10 @@ $(document).ready(function () {
 
             setTimeout(function () {
                 gameObject.totalLosses++;
+                gameObject.updateWinsLosses();
                 gameObject.lastAnswer = gameObject.questionsObject[randomize].correct;
                 gameObject.lastQuestion = gameObject.questionsObject[randomize].question;
-                gameObject.giveAnswer(false, gameObject.lastQuestion, gameObject.lastAnswer, "No user input");
-                gameObject.updateWinsLosses();
+                gameObject.giveAnswer(false, gameObject.lastQuestion, gameObject.lastAnswer, "You didn't even guess!");
                 console.log('Question has timed out');
             }, 20000 / (gameObject.difficulty + 1));
 
@@ -221,6 +241,14 @@ $(document).ready(function () {
             $('#main-menu').hide();
             $('#result').hide();
             $('#receive-question').show();
+
+            var receiveHTML1 = '<div class="container" id="receive-question"><div class="row" id="top-nav-bar" style="background: #DDDDDD;"><div class="row" id="top-nav-row"><div class="col-sm-4" id="questions-completed"># Questions Completed</div><div class="col-sm-4" id="menu-button"><button type="button" class="btn btn-md btn-primary">Menu</button></div><div class="col-sm-4" id="hints-remaining"># Hints Remaining</div></div><div class="row" id="bottom-nav-row"><div class="col-sm-4" id="questions-failed"># Questions Failed</div><div class="col-sm-4" id="level-timer">TIMER</div><div class="col-sm-4" id="tries-left"># Tries Left</div></div></div>';
+            var receiveHTML2 = '<div class="row" id="question-row" style="min-height:10%"><div class="col-sm-4"></div><div class="col-lg-4" id="question"></div><div class="col-sm-4"></div></div><div class="row" id="hints-row"><div class="row" id="hint-num-1"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-1"></div><div class="row" id="first-hint"></div><br></div><div class="col-md-4"></div></div><div class="row" id="hint-num-2"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-2"><button type="button" class="btn btn-warning" id="hint-button-2">Hint 2</button></div><div class="row" id="second-hint"></div><br></div><div class="col-md-4"></div></div>';
+            var receiveHTML3 = '</div><div class="row" id="user-input"><div class="row" class="answer-button"><div class="col-sm-2"></div><div class="col-sm-4" class="answer-button" id="answer-a"></div><div class="col-sm-4" class="answer-button" id="answer-c"></div><div class="col-sm-2"></div></div><div class="row"><div class="col-sm-2"></div><div class="col-sm-4" class="answer-button" id="answer-b"></div><div class="col-sm-4" class="answer-button" id="answer-d"></div><div class="col-sm-2"></div></div></div></div>';
+           
+
+
+            $('#game-container').empty().append(receiveHTML1).append(receiveHTML2).append(receiveHTML3);
             this.loadHintTry();
             this.outputInfo();
         },
@@ -236,6 +264,12 @@ $(document).ready(function () {
             $('#main-menu').hide();
             $('#result').show();
             $('#receive-question').hide();
+
+            
+            var giveAnswerHTML1 = '<div class="container" id="result"><div class="row" id="result-row"><div class="col-sm-3"></div><div class="col-lg-6" id="the-result"></div><div class="col-sm-3"></div></div><div class="row" id="answer-result"><div class="col-sm-3"></div><div class="col-lg-6" id="the-answer" style="background: lightgreen;">The Answer</div><div class="col-sm-3"></div></div>';
+            var giveAnswerHTML2 = '<div class="row" id="user-stats"><div class="row" id="user-stats-row-1"><div class="col-sm-3"></div><div class="col-sm-3" id="incorrect-questions"># Incorrect</div><div id="question-rate" id="question-rate" class="col-sm-3">Question Rate</div><div class="col-sm-3"></div></div><div class="row" id="user-stats-row-2"><div class="col-sm-3"></div><div class="col-sm-3" id="correct-questions"># Correct</div><div class="col-sm-3" id="answer-rate">Answer Rate</div><div class="col-sm-3"></div></div></div>';
+            var giveAnswerHTML3 = '<div class="row" id="user-feedback"><div class="col-sm-3"></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-warning" id="answer-menu-backout">Menu</button></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-success" id="answer-keep-going">Keep Going!</button></div><div class="col-sm-3"></div></div></div>';
+            $('#game-container').empty().append(giveAnswerHTML1).append(giveAnswerHTML2).append(giveAnswerHTML3)
 
             console.log(question + ": is the question at play");
             console.log(questionTruth + "...Was the question right?")
