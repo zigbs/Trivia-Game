@@ -1,8 +1,6 @@
 $(document).ready(function () {
     //variable declarations go here
-
- 
-
+    
 
     //object declarations go here
     var gameObject = {
@@ -22,27 +20,27 @@ $(document).ready(function () {
             { question: "Who made first contact with Earth?",
               answers: ["Vulcans", "Romulans", "Klingons", "The Breen"],
               correct: "Vulcans",
-              hints: ["Logic defines them", "Live long and prosper"]  },
+              hints: ["Logic defines them", "Live long and prosper"],  },
             
             { question: "Where do the Maqui live?",
               answers: ["Bajor", "The Badlands", "Cardassia", "Earth"],
               correct: "The Badlands",
-              hints: ["A desert wasteland", "Land that nobody wanted"]  },
+              hints: ["A desert wasteland", "Land that nobody wanted"],  },
             
               { question: "What color is Vulcan blood?",
               answers: ["Green", "Red", "Magenta", "Sky Blue"],
               correct: "Green",
-              hints: ["Not normal", "Reminds you of a bug"]  },
+              hints: ["Not normal", "Reminds you of a bug"],  },
 
               { question: "What do the Borg always say?",
               answers: ["Resistance is Futile", "Live Long and Prosper", "To Romulus!", "Cooperation is Key"],
               correct: "Resistance is Futile",
-              hints: ["A subtle message", "You should not try it"]  },
+              hints: ["A subtle message", "You should not try it"],  },
 
             { question: "Which race is NOT a Vulcanoid?",
               answers: ["Garidian", "Vulcan", "Romulan", "Vorta"],
               correct: "Vorta",
-              hints: ["Not from the Alpha or Beta Quadrants", "Affiliated with Dominion command positions"]  }
+              hints: ["Not from the Alpha or Beta Quadrants", "Affiliated with Dominion command positions"],  }
             ],
         resetVariables: function () {
             this.totalWins = 0;
@@ -72,44 +70,67 @@ $(document).ready(function () {
             this.mainMenuLoad();
         },
         loadHintTry: function () {
+        // THIS LOADS THE HINT AND TRY BUTTONS.  YOU CAN ASSIGN VALUES LATER
             
-            
-            if(this.difficulty === 2){
+            if(this.difficulty === 2) {
                 
-                $('#first-hint').hide();
-                $('#second-hint').hide();
-                $('#hint-button-1').hide();
-                $('#hint-button-2').hide();
-
-            } else if(this.difficulty === 1){
-                var htmlString = '<button type="button" class="btn btn-warning" id="hint-button-1">Hint 1</button>';
-                $('#first-hint').hide();
-                $('#hint-button-1').empty().show().append(htmlString);
-                $('#second-hint').hide();
+                $('#hint-button-1').empty();
                 $('#hint-button-2').empty();
-            } else if(this.difficulty === 0){
+            } 
+            if(this.difficulty === 1) {
+                var htmlString = '<button type="button" class="btn btn-warning" id="hint-button-1">Hint 1</button>';
+                $('#hint-button-1').empty().append(htmlString);
+                $('#hint-button-2').empty();
+            } 
+            if(this.difficulty === 0) {
+                var htmlString = '<button type="button" class="btn btn-warning" id="hint-button-1">Hint 1</button>';
                 var htmlString2 = '<button type="button" class="btn btn-warning" id="hint-button-2">Hint 2</button>';
-                $('#second-hint').show();
-                $('#hint-button-2').empty().show().append(htmlString2);
+                $('#hint-button-1').empty().append(htmlString);
+                $('#hint-button-2').empty().append(htmlString2);
             }
         },
         outputInfo: function () {
-            var randomize = Math.floor(Math.random() * 5);
+            var randomize = Math.floor(Math.random() * 5); 
             console.log(randomize);
-            
+            console.log(this.questionsObject[randomize].hints[0]);
+
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
             
             //HERE IS WHERE THE QUESTIONS SPIT OUT
             $('#question').empty().append(htmlString);
                      
-            var AnswerAString = '<button type="button" class="btn btn-lg btn-success" value="' + this.questionsObject[randomize].answers[0] + '">' + this.questionsObject[randomize].answers[0] + '</button>';
+            var AnswerAString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[0] + '">' + this.questionsObject[randomize].answers[0] + '</button>';
             $('#answer-a').empty().append(AnswerAString);
-            var AnswerBString = '<button type="button" class="btn btn-lg btn-success value="' + this.questionsObject[randomize].answers[1] + '">' + this.questionsObject[randomize].answers[1] + '</button>';
+            var AnswerBString = '<button type="button" class="btn btnans btn-lg btn-success value="' + this.questionsObject[randomize].answers[1] + '">' + this.questionsObject[randomize].answers[1] + '</button>';
             $('#answer-b').empty().append(AnswerBString);
-            var AnswerCString = '<button type="button" class="btn btn-lg btn-success" value="' + this.questionsObject[randomize].answers[2] + '">' + this.questionsObject[randomize].answers[2] + '</button>';
+            var AnswerCString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[2] + '">' + this.questionsObject[randomize].answers[2] + '</button>';
             $('#answer-c').empty().append(AnswerCString);
-            var AnswerDString = '<button type="button" class="btn btn-lg btn-success" value="' + this.questionsObject[randomize].answers[3] + '">' + this.questionsObject[randomize].answers[3] + '</button>';
+            var AnswerDString = '<button type="button" class="btn btnans btn-lg btn-success" value="' + this.questionsObject[randomize].answers[3] + '">' + this.questionsObject[randomize].answers[3] + '</button>';
             $('#answer-d').empty().append(AnswerDString);
+
+            //THIS CLEARS EVERYTHING OUT SO THAT WE HAVE CLEAN HINTS
+            $('#first-hint').empty();
+            $('#second-hint').empty();
+            var Hint1String = "HINT #1  " + gameObject.questionsObject[randomize].hints[0];
+            console.log(Hint1String);
+            $('#first-hint').hide().append(Hint1String);
+            var Hint2String = "HINT #2  " + gameObject.questionsObject[randomize].hints[1];
+            $('#second-hint').hide().append(Hint2String);
+            console.log(Hint2String);
+
+            $('#hint-button-1').click(function(){
+                $('#first-hint').show();
+            });
+            $('#hint-button-2').click(function(){
+                $('#second-hint').show();
+            });
+
+            
+            $('.btnans').click(function (){
+                var answerValue = $('.btnans').val();
+                console.log(answerValue);
+            });
+
         },
         checkMenuClicks: function () {
             if(gameObject.hasClicked === false){
@@ -140,36 +161,19 @@ $(document).ready(function () {
     };
         //BY DEFAULT THE MENU IS DISPLAYED
         gameObject.loadGame();
-        
-
-        //These are the events & navigation + logic of the title screen.
-        //THIS IS FOR THE DELAY AFTER THE BUTTON TO PLAY A SOUND AND ANIMATE A STATUS
-        
-        //IF THE USER HAS NOT ALREADY CLICKED.  WHEN THEY CLICK THEIR CHOICE IS LOCKED IN.
         gameObject.checkMenuClicks();
-         
-            
-        
-        
+                
 
 
 
         //The quesiton screen navigation & events
 
+        
+
 
         $('#menu-button').click(function (){
             gameObject.loadGame();
         });
-        
-        $('#first-hint').hide();
-        $('#second-hint').hide();
-
-        
-
-        
-        
-
-
 
         //answer navigation
         $('#answer-keep-going').click(function(){
