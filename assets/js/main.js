@@ -83,22 +83,27 @@ $(document).ready(function () {
                 $('#hint-button-2').empty().append(htmlString2);
             }
         },
+        updateWinsLosses: function () { 
+            var winsString = gameObject.totalWins;
+            var lossString = gameObject.totalLosses;
+            $('#questions-completed').empty().append(winsString + ' Total Wins');
+            $('#questions-failed').empty().append(lossString + ' Total Losses');
+        },
         outputInfo: function () {
             var questionArray = gameObject.questionsObject.length;
             console.log(questionArray + ' Is the length of question Array ');
             var randomize = Math.floor(Math.random() * questionArray);
             console.log(randomize + " is the random value selected");
-            console.log(this.questionsObject[randomize].hints[0]);
+            //console.log(this.questionsObject[randomize].hints[0]);
 
-            
-
-            
-
+            var winsString = gameObject.totalWins;
+            var lossString = gameObject.totalLosses;
+            $('#questions-completed').empty().append(winsString + ' Total Wins');
+            $('#questions-failed').empty().append(lossString + ' Total Losses');
 
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
             var hintsRemString = gameObject.hintsLeft;
             $('#hints-remaining').empty().append('There are ' + hintsRemString +' hints left.');
-
             //HERE IS WHERE THE QUESTIONS SPIT OUT
             $('#question').empty().append(htmlString);
             //IF THE MENU BUTTON IS CLICKED -> MAIN MENU
@@ -152,19 +157,23 @@ $(document).ready(function () {
                 //IF THE ANSWER CLICKED IS TRUE
                 if(getAnswerValue === correctAnswer) {
                     setTimeout(function () {
+                        gameObject.totalWins++;
                         gameObject.giveAnswer(true, lastQuestion, correctAnswer, getAnswerValue);
+                        updateWinsLosses();
+                        
                     }, 500);
                 //IF THE ANSWER CLICKED IS FALSE    
                 } else if(getAnswerValue !== correctAnswer) {                   
                     setTimeout(function () {
+                        gameObject.totalLosses++;
                         gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
+                        updateWinsLosses();
                     }, 500);
                 }
-                else {
-                    setTimeout(function () {
+
                     gameObject.giveAnswer(false, lastQuestion, correctAnswer, getAnswerValue);
-                }, 6000); 
-                }
+                    console.log('Question has timed out');
+
             });
         },
         checkMenuClicks: function () {
@@ -218,7 +227,7 @@ $(document).ready(function () {
             console.log(question + ": is the question at play");
             console.log(questionTruth + "...Was the question right?")
             var theAnswerString = '<h2>' + question + '</h2>';
-            var theAnswerString2 = '<h2>The answer was: ' + answer + '</h2>';
+            var theAnswerString2 = '<h2>The answer was: <strong>' + answer + '</strong></h2>';
             var theAnswerString3 = '<h3>You picked: ' + userpick + '</h2>';
             $('#the-answer').empty().append(theAnswerString).append(theAnswerString2).append(theAnswerString3);
 
