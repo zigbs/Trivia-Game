@@ -169,6 +169,7 @@ $(document).ready(function () {
                 }
             });
             setTimeout(function () {
+                //INSERT THE FLAG/BOOL WRAPPER TO PREVENT THE WEIRD TIMER STUFF
                 gameObject.totalLosses++;
                 gameObject.updateWinsLosses();
                 gameObject.lastAnswer = gameObject.questionsObject[randomize].correct;
@@ -272,10 +273,6 @@ $(document).ready(function () {
                 $('#the-result').empty().append(answerString2);
                 $('#the-result').css("background-color", "red");
             }
-            //THIS SETS A TIMEOUT TO KEEP THINGS GOING
-            /* setTimeout(function () {
-                gameObject.receiveQuestion();
-            }, 70000); */  //that timeout was breaking everything
             $('#answer-keep-going').click(function () {
                 gameObject.receiveQuestion();
             });
