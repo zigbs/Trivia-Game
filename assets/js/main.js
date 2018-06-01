@@ -10,6 +10,7 @@ $(document).ready(function () {
         triesLeft: 0, //This is also by default for hard mode
         totalHints: 0,  //This is the tally for the # of hints that they use throughtout the game
         totalTries: 0,  //This is the tally for the # of total tries that the user uses in a round of play
+        answerClicked: false,
         menu: true,
         lastAnswerTruth: false,
         lastAnswerValue: " ",
@@ -72,7 +73,7 @@ $(document).ready(function () {
             console.log(randomBG + ' this is the random background #');
             var backgroundString = "assets/bg/0" + randomBG + ".jpg";
             console.log(backgroundString);
-            $('body').css("background-image", "url(" + backgroundString + ")"); 
+            $('body').css("background-image", "url(" + backgroundString + ")");
         },
         resetVariables: function () {
             this.totalWins = 0;
@@ -168,19 +169,22 @@ $(document).ready(function () {
                     gameObject.updateHints();
                 }
             });
-            setTimeout(function () {
-                //INSERT THE FLAG/BOOL WRAPPER TO PREVENT THE WEIRD TIMER STUFF
-                gameObject.totalLosses++;
-                gameObject.updateWinsLosses();
-                gameObject.lastAnswer = gameObject.questionsObject[randomize].correct;
-                gameObject.lastQuestion = gameObject.questionsObject[randomize].question;
-                gameObject.giveAnswer(false, gameObject.lastQuestion, gameObject.lastAnswer, "You didn't even guess!");
-                console.log('Question has timed out');
-            }, 20000 / (gameObject.difficulty + 1));
+            if (gameObject.answerClicked === false) {
+                setTimeout(function () {
+                    gameObject.totalLosses++;
+                    gameObject.updateWinsLosses();
+                    gameObject.lastAnswer = gameObject.questionsObject[randomize].correct;
+                    gameObject.lastQuestion = gameObject.questionsObject[randomize].question;
+                    gameObject.giveAnswer(false, gameObject.lastQuestion, gameObject.lastAnswer, "You didn't even guess!");
+                    console.log('Question has timed out');
+                }, 20000 / (gameObject.difficulty + 1));
+            }
             //IF ONE OF THE ANSWER BUTTONS HAS BEEN CLICKED
             $('.btnans').click(function () {
                 var getAnswerValue = undefined;
                 var getAnswerValue = $(this).attr("value");
+
+                gameObject.answerClicked = true;
                 console.log(getAnswerValue);
                 var correctAnswer = gameObject.questionsObject[randomize].correct;
                 console.log(correctAnswer);
@@ -231,6 +235,7 @@ $(document).ready(function () {
             $('#main-menu').hide();
             $('#result').hide();
             $('#receive-question').show();
+            gameObject.answerClicked = false;
             //INSERT QUESTION
             var receiveHTML1 = '<div class="container" id="receive-question"><div class="row" id="top-nav-bar" style="background: #DDDDDD;"><div class="row" id="top-nav-row"><div class="col-sm-4" id="questions-completed"># Questions Completed</div><div class="col-sm-4" id="menu-button"><button type="button" class="btn btn-md btn-primary">Menu</button></div><div class="col-sm-4" id="hints-remaining"># Hints Remaining</div></div><div class="row" id="bottom-nav-row"><div class="col-sm-4" id="questions-failed"># Questions Failed</div><div class="col-sm-4" id="level-timer">TIMER</div><div class="col-sm-4" id="tries-left"># Tries Left</div></div></div>';
             var receiveHTML2 = '<div class="row" id="question-row" style="min-height:10%"><div class="col-sm-4"></div><div class="col-lg-4" id="question"></div><div class="col-sm-4"></div></div><div class="row" id="hints-row"><div class="row" id="hint-num-1"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-1"></div><div class="row" id="first-hint"></div><br></div><div class="col-md-4"></div></div><div class="row" id="hint-num-2"><div class="col-md-4"></div><div class="col-md-4"><div class="row" id="hint-button-2"><button type="button" class="btn btn-warning" id="hint-button-2">Hint 2</button></div><div class="row" id="second-hint"></div><br></div><div class="col-md-4"></div></div>';
@@ -251,6 +256,7 @@ $(document).ready(function () {
             $('#main-menu').hide();
             $('#result').show();
             $('#receive-question').hide();
+            
             //INSERT ANSWER SCREEN
             var giveAnswerHTML1 = '<div class="container" id="result"><div class="row" id="result-row"><div class="col-sm-3"></div><div class="col-lg-6" id="the-result"></div><div class="col-sm-3"></div></div><div class="row" id="answer-result"><div class="col-sm-3"></div><div class="col-lg-6" id="the-answer">The Answer</div><div class="col-sm-3"></div></div>';
             var giveAnswerHTML2 = '<div class="row" id="user-stats"><div class="row" id="user-stats-row-1"><div class="col-sm-3"></div><div class="col-sm-3" id="incorrect-questions"># Incorrect</div><div id="question-rate" id="question-rate" class="col-sm-3">Question Rate</div><div class="col-sm-3"></div></div><div class="row" id="user-stats-row-2"><div class="col-sm-3"></div><div class="col-sm-3" id="correct-questions"># Correct</div><div class="col-sm-3" id="answer-rate">Answer Rate</div><div class="col-sm-3"></div></div></div>';
