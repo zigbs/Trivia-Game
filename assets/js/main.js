@@ -288,11 +288,4 @@ $(document).ready(function () {
     gameObject.loadGame();
     gameObject.checkMenuClicks();
 
-
-
-
-
-
-
-
 });
