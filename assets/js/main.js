@@ -273,9 +273,9 @@ $(document).ready(function () {
                 $('#the-result').css("background-color", "red");
             }
             //THIS SETS A TIMEOUT TO KEEP THINGS GOING
-            setTimeout(function () {
+            /* setTimeout(function () {
                 gameObject.receiveQuestion();
-            }, 70000);
+            }, 70000); */  //that timeout was breaking everything
             $('#answer-keep-going').click(function () {
                 gameObject.receiveQuestion();
             });
