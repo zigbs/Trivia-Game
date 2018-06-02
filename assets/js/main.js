@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     var gameObject = {
         name: "Trivia Game",
+        creator: "Tyler Dylan Brown",
+        dogName: 'Pubbs',
         totalWins: 0,
         totalLosses: 0,
         winRate: 0,
@@ -11,6 +13,7 @@ $(document).ready(function () {
         totalHints: 0,  //This is the tally for the # of hints that they use throughtout the game
         totalTries: 0,  //This is the tally for the # of total tries that the user uses in a round of play
         answerClicked: false,
+        levelTimer: 0,
         menu: true,
         lastAnswerTruth: false,
         lastAnswerValue: " ",
@@ -51,7 +54,7 @@ $(document).ready(function () {
                 question: "Which quadrant are the Founders from?",
                 answers: ["Alpha", "Beta", "Delta", "Gamma"],
                 correct: "Gamma",
-                hints: ["Not from the Alpha or Beta Quadrants", "Affiliated with Dominion command positions"],
+                hints: ["Not from the Alpha or Beta Quadrants", "Nowhere near the USS Voyager"],
             },
 
             {
@@ -65,7 +68,7 @@ $(document).ready(function () {
                 question: "Where are the Ferengi from?",
                 answers: ["Q'o'nos", "Remus", "Romulus", "Feringinar"],
                 correct: "Feringinar",
-                hints: ["They are perpetually neutral", "They're known for ears and trade"],
+                hints: ["They are perpetually neutral", "They're known for their lobes and trade"],
             }
         ],
         setupBackground: function () {
@@ -79,6 +82,8 @@ $(document).ready(function () {
             this.totalWins = 0;
             this.totalLosses = 0;
             this.triesLeft = 0;
+            this.levelTimer = 20;
+            this.answerClicked = false;
         },
         mainMenuLoad: function () {
             this.resetVariables();
@@ -90,7 +95,7 @@ $(document).ready(function () {
             gameObject.setupBackground();
             this.mainMenuLoad();
             //INSERT MENU HERE
-            var menuString1 = '<div class="container" id="main-menu"><div class="container" id="title-container"><div class="row" id="title-row"><div class="col-md-3"></div><div class="col-md-6"><h1 class="trivia-title">Trivia Application!</h1></div><div class="col-md-3"></div></div>';
+            var menuString1 = '<div class="container" id="main-menu"><div class="container" id="title-container"><div class="row" id="title-row"><div class="col-md-3"></div><div class="col-md-6 title-class"><h1 class="trivia-title">Trivia Application!</h1></div><div class="col-md-3"></div></div>';
             var menuString2 = '<div class="row" id="difficulty-select"><div class="col-md-3"></div><div class="col-md-6"><div class="row diff-select" id="easy-select"><button type="button" class="btn btn-lg diff-button btn-success"><h1>Easy: 2 hints, 2 tries</h1></button></div><br><div class="row diff-select" id="medium-select"><button type="button" class="btn btn-lg diff-button btn-warning"><h1>Medium: 1 hint, 1 try</h1></button></div><br><div class="row diff-select" id="hard-select"><button type="button" class="btn btn-lg diff-button btn-danger"><h0>Hard</h0></button></div><br></div><div class="col-md-3"></div></div>';
             var menuString3 = '<div class="row" id="portfolio-tiles"></div><div class="col-md-2"></div><div class="col-md-2"><a href="https://www.linkedin.com" target="_new"><img id="linkedin-button" class="portfolio-btn"  src="assets/img/in.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://www.github.com/zigbs" target="_new"><img id="github-button" class="portfolio-btn" src="assets/img/github.png" height="75" width="75"></a></div><div class="col-md-2"><a href="https://wwww.slideshare.net" target="_new"><img class="portfolio-btn"  id="slideshare-button" src="assets/img/share.png" height="75" width="75"></a></div><div class="col-md-2"><a href="mailto:zigbs.zigbs@gmail.com"><img class="portfolio-btn"  id="email-button" src="assets/img/email.png" height="75" width="75"></a></div><div class="col-md-2"></div></div></div>';
             $('#game-container').empty().append(menuString1).append(menuString2).append(menuString3);
@@ -106,8 +111,8 @@ $(document).ready(function () {
                 $('#hint-button-2').empty();
             }
             if (this.difficulty === 0) {
-                var htmlString = '<button type="button" class="btn hint-button btn-warning" id="hint-button-1">Hint 1</button>';
-                var htmlString2 = '<button type="button" class="btn hint-button btn-warning" id="hint-button-2">Hint 2</button>';
+                var htmlString = '<button type="button" class="btn hint-button btn-lg btn-warning" id="hint-button-1">Hint 1</button>';
+                var htmlString2 = '<button type="button" class="btn hint-button btn-lg btn-warning" id="hint-button-2">Hint 2</button>';
                 $('#hint-button-1').empty().append(htmlString);
                 $('#hint-button-2').empty().append(htmlString2);
             }
@@ -126,8 +131,52 @@ $(document).ready(function () {
             var randomize = Math.floor(Math.random() * questionArray);
             console.log(randomize + " is the random value selected");
             gameObject.updateWinsLosses();
-            var levelTimer = ((20000 / (gameObject.difficulty + 1)) / 1000);
+
+            var levelTimer = Math.round(((20000 / (gameObject.difficulty + 1)) / 1000));
+            console.log('LEVEL TIMER' + gameObject.levelTimer + " Seconds");
+            //INITIAL TIMER SETUP
+
+            //We call this function so we can begin subtracting from it. 
+
+            /*if (levelTimer > 0 && gameObject.answerClicked === false) {
+                console.log(levelTimer + " level Timer test");
+                setTimeout(function () {
+                    console.log("Inside the Timeout");
+                    for (var j = levelTimer; j > 0; j--) {
+                        levelTimer--;
+                        console.log(levelTimer + " seconds are left in the round")
+                        var timerString = "<h3>" + levelTimer + " seconds left</h3>";
+                        $('#level-timer').empty().append(timerString);
+                    }
+                }, 1000);
+
+            } */
+
             $('#level-timer').empty().append(levelTimer + " Seconds");
+
+            var count = levelTimer;
+
+            var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+
+            function timer() {
+                count -= 1;
+                if (count <= 0) {
+                    clearInterval(counter);
+                        $('#level-timer').empty().append("time is up!");
+                        if(gameObject.answerClicked !== true){
+                            gameObject.totalLosses++;
+                            gameObject.giveAnswer(false, " ", " ", "I can't believe you didn't even guess.");
+                            gameObject.updateWinsLosses();
+                        }
+                    //counter ended, do something here
+                    return;
+                }
+                var varStringTransfer = "<h4>" + count + "</h4>";
+                $('#level-timer').empty().append(varStringTransfer + " Seconds");
+                
+            }
+
+
             var htmlString = '<h1>' + this.questionsObject[randomize].question + '</h1>';
             var hintsRemString = gameObject.hintsLeft;
             $('#hints-remaining').empty().append('There are ' + hintsRemString + ' hints left.');
@@ -169,16 +218,7 @@ $(document).ready(function () {
                     gameObject.updateHints();
                 }
             });
-            if (gameObject.answerClicked === false) {
-                setTimeout(function () {
-                    gameObject.totalLosses++;
-                    gameObject.updateWinsLosses();
-                    gameObject.lastAnswer = gameObject.questionsObject[randomize].correct;
-                    gameObject.lastQuestion = gameObject.questionsObject[randomize].question;
-                    gameObject.giveAnswer(false, gameObject.lastQuestion, gameObject.lastAnswer, "You didn't even guess!");
-                    console.log('Question has timed out');
-                }, 20000 / (gameObject.difficulty + 1));
-            }
+
             //IF ONE OF THE ANSWER BUTTONS HAS BEEN CLICKED
             $('.btnans').click(function () {
                 var getAnswerValue = undefined;
@@ -256,11 +296,11 @@ $(document).ready(function () {
             $('#main-menu').hide();
             $('#result').show();
             $('#receive-question').hide();
-            
+
             //INSERT ANSWER SCREEN
             var giveAnswerHTML1 = '<div class="container" id="result"><div class="row" id="result-row"><div class="col-sm-3"></div><div class="col-lg-6" id="the-result"></div><div class="col-sm-3"></div></div><div class="row" id="answer-result"><div class="col-sm-3"></div><div class="col-lg-6" id="the-answer">The Answer</div><div class="col-sm-3"></div></div>';
-            var giveAnswerHTML2 = '<div class="row" id="user-stats"><div class="row" id="user-stats-row-1"><div class="col-sm-3"></div><div class="col-sm-3" id="incorrect-questions"># Incorrect</div><div id="question-rate" id="question-rate" class="col-sm-3">Question Rate</div><div class="col-sm-3"></div></div><div class="row" id="user-stats-row-2"><div class="col-sm-3"></div><div class="col-sm-3" id="correct-questions"># Correct</div><div class="col-sm-3" id="answer-rate">Answer Rate</div><div class="col-sm-3"></div></div></div>';
-            var giveAnswerHTML3 = '<div class="row" id="user-feedback"><div class="col-sm-3"></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-warning" id="answer-menu-backout">Menu</button></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-success" id="answer-keep-going">Keep Going!</button></div><div class="col-sm-3"></div></div></div>';
+            var giveAnswerHTML2 = '<div class="row" id="user-stats"><div class="row" id="user-stats-row-1"><div class="col-sm-3"></div><div class="col-sm-3 info-class" id="incorrect-questions"># Incorrect</div><div id="question-rate" class="col-sm-3 info-class">Question Rate</div><div class="col-sm-3"></div></div><div class="row" id="user-stats-row-2"><div class="col-sm-3"></div><div class="col-sm-3 info-class" id="correct-questions"># Correct</div><div class="col-sm-3 info-class" id="answer-rate">Answer Rate</div><div class="col-sm-3"></div></div></div>';
+            var giveAnswerHTML3 = '<div class="row" id="user-feedback"><div class="col-sm-3"></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-warning btn-lg btn-nav btn-menu" id="answer-menu-backout">Menu</button></div><div class="col-sm-3"><button type="button" class="btn btn-md btn-success btn-next btn-nav btn-lg" id="answer-keep-going">Keep Going!</button></div><div class="col-sm-3"></div></div></div>';
             $('#game-container').empty().append(giveAnswerHTML1).append(giveAnswerHTML2).append(giveAnswerHTML3)
             console.log(question + ": is the question at play");
             console.log(questionTruth + "...Was the question right?")
@@ -286,6 +326,7 @@ $(document).ready(function () {
                 gameObject.loadGame();
             });
         }
+
     };
     //BY DEFAULT THE MENU IS DISPLAYED
     gameObject.loadGame();
